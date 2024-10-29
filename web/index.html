@@ -10,22 +10,24 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
 </head>
-<body>
+<body class="bg-dark ">
     
-    <div class="container justify-content-center">
-        <h1>Tic-Tac-Toe Game</h1>
+    <div class="container justify-content-center text-center my-5 py-3  w-50 bg-light border rounded">
+        <h1 class="display-4 ">Tic-Tac-Toe Game</h1><br>
 
-        <div class="vs-button text-center justify-content-center">
-            <button id="twoPlayers" class="btn btn-outline-dark">2 Players</button>
-            <button id="vsComputer" class="btn btn-outline-dark">vs Computer</button>
+        <div class="vs-button justify-content-center  text-center">
+            <button id="twoPlayers" class="btn btn-lg btn-outline-dark">2 Players</button>
+            <button id="vsComputer" class="btn btn-lg btn-outline-dark">vs Computer</button>
         </div>
         <div class="vs-alg text-center justify-content-center"  style="display: none;">
             <button id="vsBfs" class="btn btn-lg btn-outline-dark">bfs</button>
             <button id="vsDfs" class="btn btn-lg btn-outline-dark">dfs</button>
+            <button id="vsUcs" class="btn btn-lg btn-outline-dark">ucs</button>
+            <button id="vsIds" class="btn btn-lg btn-outline-dark">ids</button>
         </div>
 
         <div class="game-section two-players" style="display: none;">
-            <small>Player 1 = X || Player 2 = O</small>
+            <small class="text-muted">Player 1 = X&nbsp&nbsp-&nbspv.s.&nbsp-&nbsp&nbspPlayer 2 = O</small><br>
             <div class="game-board">
                 <div class="row">
                     <div class="cell" onclick="twoPMakeMove(0, 0)"></div>
@@ -47,7 +49,7 @@
         </div>
 <!-- 
         <div class="game-section vs-computer" style="display: none;">
-            <small>Player 1 = X || Computer = O</small>
+            <small class="text-muted">Player 1 = X || Computer = O</small>
             <div class="game-board">
                 <div class="row">
                     <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
@@ -69,28 +71,95 @@
         </div> -->
 
         <div class="game-section vs-bfs" style="display: none;">
-            <small>Player 1 = X || Computer = O</small>
+            <small class="text-muted">You= X&nbsp&nbsp-&nbspv.s.&nbsp-&nbsp&nbspComputer = O</small><br>
             <div class="game-board">
                 <div class="row">
-                    <div class="cell" onclick="vsBfsMakeMove(0, 0)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(0, 1)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(0, 2)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 2)"></div>
                 </div>
                 <div class="row">
-                    <div class="cell" onclick="vsBfsMakeMove(1, 0)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(1, 1)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(1, 2)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 2)"></div>
                 </div>
                 <div class="row">
-                    <div class="cell" onclick="vsBfsMakeMove(2, 0)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(2, 1)"></div>
-                    <div class="cell" onclick="vsBfsMakeMove(2, 2)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 2)"></div>
                 </div>
             </div>
             <p class="winner-text" id="vsComputerWinnerText"></p>
         </div>
 
-        <button id="restartButton" onclick="resetBoard()" style="display: none;">Restart Game</button>
+        <div class="game-section vs-dfs" style="display: none;">
+            <small class="text-muted">You = X&nbsp&nbsp-&nbspv.s.&nbsp-&nbsp&nbspComputer = O</small><br>
+            <div class="game-board">
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(1, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(2, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 2)"></div>
+                </div>
+            </div>
+            <p class="winner-text" id="vsComputerWinnerText"></p>
+        </div>
+
+        <div class="game-section vs-ucs" style="display: none;">
+            <small class="text-muted">You = X&nbsp&nbsp-&nbspv.s.&nbsp-&nbsp&nbspComputer = O</small><br>
+            <div class="game-board">
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(1, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(2, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 2)"></div>
+                </div>
+            </div>
+            <p class="winner-text" id="vsComputerWinnerText"></p>
+        </div>
+
+        <div class="game-section vs-ids" style="display: none;">
+            <small>You = X&nbsp&nbsp-&nbspv.s.&nbsp-&nbsp&nbspComputer = O</small><br>
+            <div class="game-board">
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(0, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(1, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(1, 2)"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="vsComMakeMove(2, 0)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 1)"></div>
+                    <div class="cell" onclick="vsComMakeMove(2, 2)"></div>
+                </div>
+            </div>
+            <p class="winner-text" id="vsComputerWinnerText"></p>
+        </div>
+
+
+        <button class="btn btn-outline-dark btn-small" id="restartButton" onclick="resetBoard()" style="display: none;">Restart Game</button>
 
 
     </div>

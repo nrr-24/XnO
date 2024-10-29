@@ -1,19 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tic-tac-toe</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-    <div id="container">
-        <h1 id="title" class="text-center mt-5">tic-tac-toe</h1>
-        <span id="message"></span>
-        <div id="board"></div>
-    </div>
+
+<body class="bg-dark">
+    <div id="container" class="container justify-content-center w-50 bg-light border rounded-lg  my-5  py-3">
+        <h1 id="title" class="text-center display-3">tic-tac-toe</h1>
+
+        <div class="vs-button text-center mt-5 justify-content-center">
+            <button id="twoPlayers" class="btn btn-lg btn-outline-dark">2 Players</button>
+            <button id="vsComputer" class="btn btn-lg btn-outline-dark">vs Computer</button>
+        </div> 
+        <div  class="game-section two-players text-center justify-content-center" style="display: none;">
+                <small>Player 1 = X || Player 2 = O</small>
+                <div class="game-board">
+                    <div class="row">
+                        <div class="cell" onclick="twoPMakeMove(0, 0)"></div>
+                        <div class="cell" onclick="twoPMakeMove(0, 1)"></div>
+                        <div class="cell" onclick="twoPMakeMove(0, 2)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" onclick="twoPMakeMove(1, 0)"></div>
+                        <div class="cell" onclick="twoPMakeMove(1, 1)"></div>
+                        <div class="cell" onclick="twoPMakeMove(1, 2)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" onclick="twoPMakeMove(2, 0)"></div>
+                        <div class="cell" onclick="twoPMakeMove(2, 1)"></div>
+                        <div class="cell" onclick="twoPMakeMove(2, 2)"></div>
+                    </div>
+                </div>
+                <p class="winner-text" id="twoPlayersWinnerText"></p>
+            </div>
+    
+            <div class="game-section vs-computer" style="display: none;">
+                <small>Player 1 = X || Computer = O</small>
+                <div class="game-board">
+                    <div class="row">
+                        <div class="cell" onclick="vsComMakeMove(0, 0)"></div>
+                        <div class="cell" onclick="vsComMakeMove(0, 1)"></div>
+                        <div class="cell" onclick="vsComMakeMove(0, 2)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" onclick="vsComMakeMove(1, 0)"></div>
+                        <div class="cell" onclick="vsComMakeMove(1, 1)"></div>
+                        <div class="cell" onclick="vsComMakeMove(1, 2)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" onclick="vsComMakeMove(2, 0)"></div>
+                        <div class="cell" onclick="vsComMakeMove(2, 1)"></div>
+                        <div class="cell" onclick="vsComMakeMove(2, 2)"></div>
+                    </div>
+                </div>
+                <p class="winner-text" id="vsComputerWinnerText"></p>
+            </div>
+            <button id="restartButton" onclick="resetBoard()" style="display: none;">Restart Game</button>
+        </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+const vsButtons = document.querySelector('.vs-button');
+const twoPlayers = document.getElementById('twoPlayers');
+const vsComputer = document.getElementById('vsComputer');
+const twoPlayersSection = document.querySelector('.two-players');
+const vsComputerSection = document.querySelector('.vs-computer');
+const restartButton = document.getElementById('restartButton')
+
+function twoPlayersGame() {
+    twoPlayersSection.style.display = "";
+    vsComputerSection.remove();
+    vsButtons.style.display = "none";
+    restartButton.style.display = "";
+}
+twoPlayers.addEventListener('click', twoPlayersGame);
+
+function vsComputerGame() {
+    vsComputerSection.style.display = "";
+    twoPlayersSection.remove();
+    vsButtons.style.display = "none";
+    restartButton.style.display = "";
+}
+vsComputer.addEventListener('click', vsComputerGame);
+
+
+let currentPlayer = 'X';
+let board = [['', '', ''], ['', '', ''], ['', '', '']];
+let gameOver = false;
+
+function twoPMakeMove(row, col) {
+    if (!gameOver && board[row][col] === '') {
+        board[row][col] = currentPlayer;
+        document.querySelector(`.row:nth-child(${row + 1}) .cell:nth-child(${col + 1}`).textContent = currentPlayer;
+        
+        if (checkWin()) {
+            document.getElementById('twoPlayersWinnerText').textContent = `${currentPlayer} wins!`;
+            gameOver = true;
+        } else if (checkTie()) {
+            document.getElementById('twoPlayersWinnerText').textContent = "It's a tie!";
+            gameOver = true;
+        } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+    }
+}
+
+function vsComMakeMove(row, col) {
+    if (!gameOver && board[row][col] === '') {
+        board[row][col] = currentPlayer;
+        document.querySelector(`.row:nth-child(${row + 1}) .cell:nth-child(${col + 1}`).textContent = currentPlayer;
+
+        if (checkWin()) {
+            document.getElementById('vsComputerWinnerText').textContent = `${currentPlayer} wins!`;
+            gameOver = true;
+        } else if (checkTie()) {
+            document.getElementById('vsComputerWinnerText').textContent = "It's a tie!";
+            gameOver = true;
+        } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+
+            if (!gameOver && currentPlayer === 'O') {
+                setTimeout(makeComputerMove, 500); 
+            }
+        }
+    }
+}
+
+
+function makeComputerMove() {
+    if (!gameOver) {
+        let row, col;
+        do {
+            row = Math.floor(Math.random() * 3);
+            col = Math.floor(Math.random() * 3);
+        } while (board[row][col] !== '');
+        
+        vsComMakeMove(row, col);
+    }
+}
+
+function checkWin() {
+    for (let i = 0; i < 3; i++) {
+        if (
+            (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer) ||
+            (board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer)
+        ) {
+            return true;
+        }
+    }
+    
+    if (
+        (board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer) ||
+        (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer)
+    ) {
+        return true;
+    }
+    
+    return false;
+}
+
+function checkTie() {
+    for (let row of board) {
+        if (row.includes('')) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function restartGame() {
+    location.reload();
+}
+restartButton.addEventListener('click', restartGame);
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
 </html>

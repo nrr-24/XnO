@@ -175,19 +175,20 @@ function makeBfsMove() {
         while (queue.length > 0) {
             let { board: currentBoard, move } = queue.shift();//This method removes the first element from the queue array and returns it. The queue is structured as an array of objects, where each object contains properties for board and move.
 
+              // Check if a blocking move for 'X' is necessary
+            if (checkWinOnBoard(currentBoard, 'X')) {
+                vsComMakeMove(move.row, move.col);  // Block the opponent's winning move
+                console.log('blocking move made');
+                return;
+            }
+
             // Check if a winning move for 'O' is available in the current state
-            if (checkWinOnBoard(currentBoard, 'O') && move) {
+            if (checkWinOnBoard(currentBoard, 'O')) {
                 vsComMakeMove(move.row, move.col);  // Apply the winning move
                 console.log('winning move made');
                 return;
             }
 
-            // Check if a blocking move for 'X' is necessary
-            if (checkWinOnBoard(currentBoard, 'X') && move) {
-                vsComMakeMove(move.row, move.col);  // Block the opponent's winning move
-                console.log('blocking move made');
-                return;
-            }
 
             // Generate all possible moves for 'O' and add to queue
             for (let row = 0; row < 3; row++) {
